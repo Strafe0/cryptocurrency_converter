@@ -33,7 +33,7 @@ class SelectCurrencyButton extends StatelessWidget {
                 itemCount: currencies.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(currencies[index].symbol),
+                    title: Center(child: Text(currencies[index].symbol)),
                     onTap: () {
                       if (from) {
                         notifier.currencyFrom = currencies[index];
