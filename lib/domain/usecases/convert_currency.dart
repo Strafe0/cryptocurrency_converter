@@ -11,7 +11,7 @@ class ConvertCurrency {
   final CurrencyRepository _currencyRepository;
   final ConfigRepository _configRepository;
 
-  Future<ConvertResult?> convert(
+  Future<ConvertResult?> call(
     String currencyIdFrom,
     String currencyIdTo,
     Decimal amount,

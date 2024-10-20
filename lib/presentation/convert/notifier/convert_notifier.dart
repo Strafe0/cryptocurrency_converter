@@ -79,7 +79,7 @@ class ConvertNotifier extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _result = await _convertCurrency.convert(
+      _result = await _convertCurrency(
         _currencyFrom!.id,
         _currencyTo!.id,
         _amount!,
