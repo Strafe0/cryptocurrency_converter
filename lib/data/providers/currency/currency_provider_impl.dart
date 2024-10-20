@@ -25,12 +25,41 @@ class CurrencyProviderImpl implements CurrencyProvider {
           "rateUsd": "0.0104380992375772"
         },
       ),
+      ...[for (int i = 0; i < 10; i++) CurrencyDto.fromJson(
+        {
+          "id": "russian-ruble",
+          "symbol": "RUB",
+          "currencySymbol": "₽",
+          "type": "fiat",
+          "rateUsd": "0.0104380992375772"
+        },
+      )],
     ]);
   }
 
   @override
   Future<CurrencyDto?> getCurrencyById(String id) async {
     // TODO: implement getCurrencyById
-    throw UnimplementedError();
+    if (id == 'bitconin') {
+      return CurrencyDto.fromJson(
+        {
+          "id": "bitcoin",
+          "symbol": "BTC",
+          "currencySymbol": "₿",
+          "type": "crypto",
+          "rateUsd": "68404.3476028389566611"
+        },
+      );
+    } else {
+      return CurrencyDto.fromJson(
+        {
+          "id": "russian-ruble",
+          "symbol": "RUB",
+          "currencySymbol": "₽",
+          "type": "fiat",
+          "rateUsd": "0.0104380992375772"
+        },
+      );
+    }
   }
 }

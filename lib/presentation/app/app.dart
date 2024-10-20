@@ -1,4 +1,7 @@
+import 'package:cryptocurrency_converter/domain/usecases/convert_currency.dart';
 import 'package:cryptocurrency_converter/domain/usecases/get_currencies.dart';
+import 'package:cryptocurrency_converter/presentation/convert/notifier/convert_notifier.dart';
+import 'package:cryptocurrency_converter/presentation/convert/widgets/convert_page.dart';
 import 'package:cryptocurrency_converter/presentation/rates/notifier/rates_notifier.dart';
 import 'package:cryptocurrency_converter/presentation/rates/widgets/rates_list.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +14,11 @@ class App extends StatelessWidget {
     super.key,
     required this.getCurrencies,
     required this.updatePeriod,
+    required this.convertCurrency,
   });
 
   final GetCurrencies getCurrencies;
+  final ConvertCurrency convertCurrency;
   final Duration updatePeriod;
 
   @override
@@ -26,6 +31,7 @@ class App extends StatelessWidget {
               force: true,
             ),
         ),
+        ChangeNotifierProvider(create: (_) => ConvertNotifier(convertCurrency)),
       ],
       child: MaterialApp(
         home: const HomeWidget(),
