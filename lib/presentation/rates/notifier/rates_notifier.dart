@@ -36,7 +36,7 @@ class RatesNotifier extends ChangeNotifier {
   void _startTimer() {
     logger.d('start timer');
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) { // TODO: change timer period
       logger.d('Update currencies by timer');
       getCurrencies();
     });
