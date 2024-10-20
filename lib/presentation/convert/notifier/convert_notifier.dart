@@ -69,6 +69,12 @@ class ConvertNotifier extends ChangeNotifier {
       return;
     }
 
+    if (_currencyFrom == _currencyTo) {
+      _errorMessage = 'Cannot convert the same currencies';
+      notifyListeners();
+      return;
+    }
+
     _calculationInProgress = true;
     notifyListeners();
 
