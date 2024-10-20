@@ -1,65 +1,55 @@
+import 'dart:convert';
+
 import 'package:cryptocurrency_converter/data/dto/currency_dto.dart';
 import 'package:cryptocurrency_converter/data/providers/currency/currency_provider.dart';
+import 'package:cryptocurrency_converter/logger.dart';
+import 'package:http/http.dart';
 
 class CurrencyProviderImpl implements CurrencyProvider {
+  final Client _client = Client();
+
   @override
   Future<List<CurrencyDto>?> getCurrencies() async {
-    // TODO: implement getCurrencies
-    await Future.delayed(Duration(milliseconds: 300));
-    return Future.value([
-      CurrencyDto.fromJson(
-        {
-          "id": "bitcoin",
-          "symbol": "BTC",
-          "currencySymbol": "₿",
-          "type": "crypto",
-          "rateUsd": "68404.3476028389566611"
-        },
-      ),
-      CurrencyDto.fromJson(
-        {
-          "id": "russian-ruble",
-          "symbol": "RUB",
-          "currencySymbol": "₽",
-          "type": "fiat",
-          "rateUsd": "0.0104380992375772"
-        },
-      ),
-      ...[for (int i = 0; i < 10; i++) CurrencyDto.fromJson(
-        {
-          "id": "russian-ruble",
-          "symbol": "RUB",
-          "currencySymbol": "₽",
-          "type": "fiat",
-          "rateUsd": "0.0104380992375772"
-        },
-      )],
-    ]);
+    var url = Uri.https(CurrencyProvider.baseUrl, 'v2/rates');
+    var response = await _client.get(url);
+
+    if (response.statusCode == 200) {
+      try {
+        final List jsonList =
+        jsonDecode(response.body)['data'];
+        return jsonList.map((json) => CurrencyDto.fromJson(json)).toList();
+      } catch (e, s) {
+        logger.e('Failed to parse currencies', error: e, stackTrace: s);
+        return null;
+      }
+    } else {
+      logger.e(
+        'Failed to get currency rates',
+        error: 'Error ${response.statusCode}: ${response.reasonPhrase}',
+      );
+      return null;
+    }
   }
 
   @override
   Future<CurrencyDto?> getCurrencyById(String id) async {
-    // TODO: implement getCurrencyById
-    if (id == 'bitconin') {
-      return CurrencyDto.fromJson(
-        {
-          "id": "bitcoin",
-          "symbol": "BTC",
-          "currencySymbol": "₿",
-          "type": "crypto",
-          "rateUsd": "68404.3476028389566611"
-        },
-      );
+    var url = Uri.https(CurrencyProvider.baseUrl, 'v2/rates/$id');
+    var response = await _client.get(url);
+
+    if (response.statusCode == 200) {
+      try {
+        final Map<String, Object?> json = jsonDecode(response.body)['data'];
+        return CurrencyDto.fromJson(json);
+      } catch (e, s) {
+        logger.e('Failed to parse currency $id', error: e, stackTrace: s);
+        return null;
+      }
     } else {
-      return CurrencyDto.fromJson(
-        {
-          "id": "russian-ruble",
-          "symbol": "RUB",
-          "currencySymbol": "₽",
-          "type": "fiat",
-          "rateUsd": "0.0104380992375772"
-        },
+      logger.e(
+        'Failed to get currency rate $id',
+        error: 'Error ${response.statusCode}: ${response.reasonPhrase}',
       );
+      return null;
     }
   }
 }
