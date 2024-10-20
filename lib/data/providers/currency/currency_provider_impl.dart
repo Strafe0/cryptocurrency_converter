@@ -1,5 +1,5 @@
 import 'package:cryptocurrency_converter/data/dto/currency_dto.dart';
-import 'package:cryptocurrency_converter/data/providers/currency_provider.dart';
+import 'package:cryptocurrency_converter/data/providers/currency/currency_provider.dart';
 
 class CurrencyProviderImpl implements CurrencyProvider {
   @override

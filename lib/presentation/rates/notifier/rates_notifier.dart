@@ -6,9 +6,10 @@ import 'package:cryptocurrency_converter/logger.dart';
 import 'package:flutter/foundation.dart';
 
 class RatesNotifier extends ChangeNotifier {
-  RatesNotifier(this._getCurrencies);
+  RatesNotifier(this._getCurrencies, this.updatePeriod);
 
   final GetCurrencies _getCurrencies;
+  final Duration updatePeriod;
 
   List<Currency>? _currencies;
   List<Currency>? get currencies => _currencies;
@@ -33,10 +34,10 @@ class RatesNotifier extends ChangeNotifier {
     }
   }
 
-  void _startTimer() {
+  void _startTimer() async {
     logger.d('start timer');
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 5), (_) { // TODO: change timer period
+    _timer = Timer.periodic(updatePeriod, (_) {
       logger.d('Update currencies by timer');
       getCurrencies();
     });

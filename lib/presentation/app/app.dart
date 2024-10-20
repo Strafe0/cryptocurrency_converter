@@ -7,16 +7,21 @@ import 'package:provider/provider.dart';
 part 'home_widget.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.getCurrencies});
+  const App({
+    super.key,
+    required this.getCurrencies,
+    required this.updatePeriod,
+  });
 
   final GetCurrencies getCurrencies;
+  final Duration updatePeriod;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RatesNotifier(getCurrencies)
+          create: (_) => RatesNotifier(getCurrencies, updatePeriod)
             ..getCurrencies(
               force: true,
             ),
