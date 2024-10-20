@@ -26,7 +26,7 @@ class ConvertCurrency {
 
       double commission = await _configRepository.getExchangeCommissionRate();
       Decimal exchangeRateWithCommission = exchangeRate *
-          (Decimal.one -
+          (Decimal.one +
               (Decimal.parse(commission.toString()) / Decimal.fromInt(100))
                   .toDecimal());
 

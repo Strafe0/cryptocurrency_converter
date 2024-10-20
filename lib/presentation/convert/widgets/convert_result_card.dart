@@ -68,7 +68,7 @@ class ConvertResultCard extends StatelessWidget {
 
   String _getConvertResultWithoutCommissionText(ConvertNotifier notifier) {
     return '(${notifier.convertResultWithoutCommission} '
-        '${notifier.currencyTo?.symbol} - '
+        '${notifier.currencyTo?.symbol} + '
         '${notifier.convertResult?.commission}%)';
   }
 }
