@@ -65,7 +65,6 @@ class ConvertNotifier extends ChangeNotifier {
     logger.i('convert $_amount $_currencyFrom to $_currencyTo');
 
     if (!enoughData) {
-      _errorMessage = 'Cannot convert - not enough data';
       notifyListeners();
       return;
     }
@@ -73,12 +72,17 @@ class ConvertNotifier extends ChangeNotifier {
     _calculationInProgress = true;
     notifyListeners();
 
-    _result = await _convertCurrency.convert(
-      _currencyFrom!.id,
-      _currencyTo!.id,
-      _amount!,
-    );
-    _errorMessage = null;
+    try {
+      _result = await _convertCurrency.convert(
+        _currencyFrom!.id,
+        _currencyTo!.id,
+        _amount!,
+      );
+      _errorMessage = null;
+    } catch (e, s) {
+      _errorMessage = 'Failed to convert';
+      logger.e(_errorMessage, error: e, stackTrace: s);
+    }
 
     _calculationInProgress = false;
     notifyListeners();

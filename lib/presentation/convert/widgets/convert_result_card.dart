@@ -9,16 +9,23 @@ class ConvertResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final notifier = context.watch<ConvertNotifier>();
 
-    Widget child = Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text('Fill in the fields'),
-      ),
-    );
+    Widget child;
 
-    if (notifier.errorMessage != null) {
-      child = Center(child: Text(notifier.errorMessage!));
-    } else if (notifier.enoughData) {
+    if (!notifier.enoughData) {
+      child = Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Fill in the fields'),
+        ),
+      );
+    } else if (notifier.errorMessage != null) {
+      child = Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(notifier.errorMessage!),
+        ),
+      );
+    } else {
       child = Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -12,7 +12,7 @@ class SelectCurrencyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String buttonText = 'Not selected';
-    ConvertNotifier notifier = context.read<ConvertNotifier>();
+    ConvertNotifier notifier = context.watch<ConvertNotifier>();
 
     if (from && notifier.currencyFrom != null) {
       buttonText = notifier.currencyFrom!.symbol;
