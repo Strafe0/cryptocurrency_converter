@@ -16,38 +16,56 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _AppBar(selectedIndex),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.monetization_on_outlined),
-            label: 'Rates',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.compare_arrows),
-            label: 'Convert',
-          ),
-        ],
-      ),
-      body: IndexedStack(
-        index: selectedIndex,
-        children: _pages,
-      ),
+    return Consumer<AuthNotifier>(
+      builder: (context, authNotifier, child) {
+        if (authNotifier.authenticated) {
+          return Scaffold(
+            appBar: _AppBar(selectedIndex, _onLogoutPressed),
+            bottomNavigationBar: NavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.monetization_on_outlined),
+                  label: 'Rates',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.compare_arrows),
+                  label: 'Convert',
+                ),
+              ],
+            ),
+            body: IndexedStack(
+              index: selectedIndex,
+              children: _pages,
+            ),
+          );
+        } else {
+          return const AuthScreen();
+        }
+      }
     );
+  }
+
+  void _onLogoutPressed() async {
+    await context.read<AuthNotifier>().logout();
+    if (mounted) {
+      context.read<RatesNotifier>().clear();
+      context.read<ConvertNotifier>().clear();
+    }
+    setState(() => selectedIndex = 0);
   }
 }
 
 class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _AppBar(this.selectedPageIndex);
+  const _AppBar(this.selectedPageIndex, this.onLogoutPressed);
 
   final int selectedPageIndex;
+  final void Function() onLogoutPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +81,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       actions: [
         IconButton(
-          onPressed: null,
+          onPressed: onLogoutPressed,
           icon: const Icon(Icons.logout),
         ),
       ],

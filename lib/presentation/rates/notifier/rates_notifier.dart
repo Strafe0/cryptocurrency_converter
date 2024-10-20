@@ -43,10 +43,14 @@ class RatesNotifier extends ChangeNotifier {
     });
   }
 
-  @override
-  void dispose() {
+  void clear() {
     _timer?.cancel();
     _timer = null;
+  }
+
+  @override
+  void dispose() {
+    clear();
     super.dispose();
   }
 }

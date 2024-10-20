@@ -87,4 +87,19 @@ class ConvertNotifier extends ChangeNotifier {
     _calculationInProgress = false;
     notifyListeners();
   }
+
+  void clear() {
+    _currencyFrom = null;
+    _currencyTo = null;
+    _amount = null;
+    _result = null;
+    _errorMessage = null;
+    _commission = null;
+  }
+
+  @override
+  void dispose() {
+    clear();
+    super.dispose();
+  }
 }
