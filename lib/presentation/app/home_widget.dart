@@ -16,39 +16,47 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthNotifier>(
-      builder: (context, authNotifier, child) {
-        if (authNotifier.authenticated) {
-          return Scaffold(
-            appBar: _AppBar(selectedIndex, _onLogoutPressed),
-            bottomNavigationBar: NavigationBar(
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (int index) {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.monetization_on_outlined),
-                  label: 'Rates',
+    return Consumer<AuthNotifier>(builder: (context, authNotifier, child) {
+      if (authNotifier.authenticated) {
+        return Scaffold(
+          appBar: _AppBar(selectedIndex, _onLogoutPressed),
+          bottomNavigationBar: context.isLargeScreen
+              ? null
+              : NavigationBar(
+                  selectedIndex: selectedIndex,
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(Icons.monetization_on_outlined),
+                      label: 'Rates',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.compare_arrows),
+                      label: 'Convert',
+                    ),
+                  ],
                 ),
-                NavigationDestination(
-                  icon: Icon(Icons.compare_arrows),
-                  label: 'Convert',
+          body: context.isLargeScreen
+              ? Row(
+                  children: _pages
+                      .map(
+                        (widget) => Expanded(child: widget),
+                      )
+                      .toList(),
+                )
+              : IndexedStack(
+                  index: selectedIndex,
+                  children: _pages,
                 ),
-              ],
-            ),
-            body: IndexedStack(
-              index: selectedIndex,
-              children: _pages,
-            ),
-          );
-        } else {
-          return const AuthScreen();
-        }
+        );
+      } else {
+        return const AuthScreen();
       }
-    );
+    });
   }
 
   void _onLogoutPressed() async {
@@ -70,14 +78,18 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(selectedPageIndex == 0 ? 'Rates' : 'Convert'),
-      leading: selectedPageIndex == 0
+      title: Text(context.isLargeScreen
+          ? 'Rates/Convert'
+          : selectedPageIndex == 0
+              ? 'Rates'
+              : 'Convert'),
+      leading: context.isLargeScreen || selectedPageIndex == 0
           ? IconButton(
-        onPressed: () {
-          context.read<RatesNotifier>().getCurrencies();
-        },
-        icon: const Icon(Icons.refresh),
-      )
+              onPressed: () {
+                context.read<RatesNotifier>().getCurrencies(force: true);
+              },
+              icon: const Icon(Icons.refresh),
+            )
           : null,
       actions: [
         IconButton(

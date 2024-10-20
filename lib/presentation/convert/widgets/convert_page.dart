@@ -13,28 +13,30 @@ class ConvertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Text('From', style: Theme.of(context).textTheme.titleMedium),
-          SelectCurrencyButton(from: true),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Text('To', style: Theme.of(context).textTheme.titleMedium),
-          ),
-          SelectCurrencyButton(from: false),
-          const Divider(height: 48),
-          Text('Amount', style: Theme.of(context).textTheme.titleMedium),
-          const AmountTextField(),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: const ConvertResultCard(),
-          ),
-          if (context.watch<ConvertNotifier>().errorMessage != null)
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('From', style: Theme.of(context).textTheme.titleMedium),
+            SelectCurrencyButton(from: true),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: const RetryButton(),
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Text('To', style: Theme.of(context).textTheme.titleMedium),
             ),
-        ],
+            SelectCurrencyButton(from: false),
+            const Divider(height: 48),
+            Text('Amount', style: Theme.of(context).textTheme.titleMedium),
+            const AmountTextField(),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: const ConvertResultCard(),
+            ),
+            if (context.watch<ConvertNotifier>().errorMessage != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: const RetryButton(),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:cryptocurrency_converter/presentation/auth/notifier/auth_notifier.dart';
 import 'package:cryptocurrency_converter/presentation/rates/notifier/rates_notifier.dart';
+import 'package:cryptocurrency_converter/presentation/screen_size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,11 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.isLargeScreen
+              ? MediaQuery.sizeOf(context).width / 3
+              : 24.0,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,8 +12,14 @@ class RatesList extends StatelessWidget {
         if (notifier.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          return ListView.builder(
+          return GridView.builder(
             itemCount: notifier.currencies!.length,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: MediaQuery.sizeOf(context).width >= 800
+                  ? MediaQuery.sizeOf(context).width / 3
+                  : MediaQuery.sizeOf(context).width,
+              mainAxisExtent: 56,
+            ),
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),

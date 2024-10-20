@@ -7,6 +7,7 @@ import 'package:cryptocurrency_converter/presentation/convert/notifier/convert_n
 import 'package:cryptocurrency_converter/presentation/convert/widgets/convert_page.dart';
 import 'package:cryptocurrency_converter/presentation/rates/notifier/rates_notifier.dart';
 import 'package:cryptocurrency_converter/presentation/rates/widgets/rates_list.dart';
+import 'package:cryptocurrency_converter/presentation/screen_size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
