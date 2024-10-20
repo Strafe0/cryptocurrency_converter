@@ -1,4 +1,3 @@
-import 'package:cryptocurrency_converter/data/repositories/currency/currency_repository.dart';
 import 'package:cryptocurrency_converter/domain/entities/currency/currency.dart';
 import 'package:cryptocurrency_converter/domain/usecases/convert_currency.dart';
 import 'package:decimal/decimal.dart';
@@ -23,7 +22,8 @@ void main() {
         (_) => Future.value(Currency(
           'bitcoin',
           'BTC',
-          Decimal.parse('68816.7680562322262169171819'), // 22 digits after point
+          Decimal.parse(
+              '68816.7680562322262169171819'), // 22 digits after point
           CurrencyType.crypto,
         )),
       );

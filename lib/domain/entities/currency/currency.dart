@@ -1,9 +1,7 @@
 import 'package:cryptocurrency_converter/data/dto/currency_dto.dart';
 import 'package:decimal/decimal.dart';
 
-enum CurrencyType {
-  fiat, crypto
-}
+enum CurrencyType { fiat, crypto }
 
 class Currency {
   Currency(this.id, this.symbol, this.rate, this.type);

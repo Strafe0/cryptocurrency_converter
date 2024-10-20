@@ -15,8 +15,7 @@ class CurrencyProviderImpl implements CurrencyProvider {
 
     if (response.statusCode == 200) {
       try {
-        final List jsonList =
-        jsonDecode(response.body)['data'];
+        final List jsonList = jsonDecode(response.body)['data'];
         return jsonList.map((json) => CurrencyDto.fromJson(json)).toList();
       } catch (e, s) {
         logger.e('Failed to parse currencies', error: e, stackTrace: s);
