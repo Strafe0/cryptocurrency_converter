@@ -3,8 +3,9 @@ import 'package:cryptocurrency_converter/data/providers/currency_provider.dart';
 
 class CurrencyProviderImpl implements CurrencyProvider {
   @override
-  Future<List<CurrencyDto>?> getCurrencies() {
+  Future<List<CurrencyDto>?> getCurrencies() async {
     // TODO: implement getCurrencies
+    await Future.delayed(Duration(milliseconds: 300));
     return Future.value([
       CurrencyDto.fromJson(
         {
@@ -28,7 +29,7 @@ class CurrencyProviderImpl implements CurrencyProvider {
   }
 
   @override
-  Future<CurrencyDto?> getCurrencyById(String id) {
+  Future<CurrencyDto?> getCurrencyById(String id) async {
     // TODO: implement getCurrencyById
     throw UnimplementedError();
   }
