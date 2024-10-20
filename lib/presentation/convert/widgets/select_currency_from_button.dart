@@ -47,7 +47,7 @@ class SelectCurrencyButton extends StatelessWidget {
               );
             }
 
-            return const Text('Failed to get currencies');
+            return Center(child: const Text('Failed to get currencies'));
           },
         );
       },
